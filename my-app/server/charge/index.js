@@ -3,9 +3,9 @@ const chargeRouter = express.Router();
 
 
 chargeRouter
-  .route('/charge')
+  .route('')
   .post(async (req, res) => {
-    return res.send('Charged.');
+    return res.send(`This is the request body: ${req.body}`);
 });
 
 module.exports = chargeRouter;
