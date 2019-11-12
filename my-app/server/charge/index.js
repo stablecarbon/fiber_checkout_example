@@ -13,8 +13,9 @@ chargeRouter
       cvc: 'tok_sandbox_8oz8RVe8saXDXCsCmFyBVa',
       expiry: 'tok_sandbox_j3bT6mRaPXWmJwFcsH9WVF'
     };
-    console.log(process.env.SANDBOX_SECRET_KEY);
-    return res.send(`This is the request body: ${req.body}`);
+    let sandboxSecretKey = process.env.SANDBOX_SECRET_KEY;
+    let sandboxContactId = process.env.SANDBOX_CONTACT_ID;
+    return res.send(`Charged.`);
 });
 
 module.exports = chargeRouter;
