@@ -2,12 +2,12 @@ const express = require("express");
 const app = express();
 require('dotenv').config()
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = 3001;
 const charge = require('./charge');
 
-app.get('/', async (req,res) => {
-   return res.send('Home.');
-});
+// app.get('/', async (req,res) => {
+//    return res.send('Home.');
+// });
 
 app.use('/charge', charge);
 

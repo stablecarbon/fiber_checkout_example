@@ -44,6 +44,11 @@ chargeRouter
     let resp;
     try {
       resp = await axios.post(url, data, headers);
+      let respData = resp.data;
+      console.log('Checkout endpoint success resp data')
+      console.log(respData);
+      debugger;
+      return res.send(`Charged card.`);
     } catch(err) {
       let errResponse = err.response;
       if (errResponse) {
@@ -52,12 +57,12 @@ chargeRouter
       } else {
         console.log('Error calling checkout endpoint', err);
       }
+
+      debugger;
+      
+      return res.send(`Charged card error.`);
     }
-    let respData = resp.data;
-    console.log('Checkout endpoint success resp data')
-    console.log(respData);
     
-    return res.send(`Charged card.`);
   } catch(err) {
     console.log(`Error charging card`);
     console.log(err);
