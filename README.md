@@ -33,7 +33,7 @@ This integration right now loads a bank's ACS UI for 3DS authentication via an H
 
 Lastly, this integration needs testing of payment gateway functionality post 3DS authentication in particular completing processing payments at the termination URL as highlighted here: https://docs.carbon.money/docs/custom-term-url.
 
-Styling will also be updated over time.
+Styling and error handling will also be updated over time.
 
 ### `yarn test`
 
