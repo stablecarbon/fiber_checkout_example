@@ -5,6 +5,7 @@ import './App.css';
 function App() {
 
   const [step, setStep] = useState(0);
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const loadCarbon =  () => {
     // Initiate carbon
@@ -24,6 +25,7 @@ function App() {
 
     btn.addEventListener('click', function(event) {
       event.preventDefault();
+      setSubmitting(true);
 
       carbon.createToken(card).then(function(result) {
         if (result.error) {
@@ -35,8 +37,7 @@ function App() {
           axios.post('/charge', result)
             .then(resp => {
               // create acs component
-              debugger;
-              let acs = elements.create('acs', { acsUrl: resp });
+              let acs = elements.create('acs', { acsUrl: resp.data.details.acsUrl });
 
               setStep(1);
 
@@ -78,12 +79,16 @@ function App() {
                 {/* Carbon generated card iframe element rendered here. */}
               </div>
             </div>
-            <button id="payment-submission-btn">Submit Payment</button>
+            <button id="payment-submission-btn">
+              {isSubmitting ? (
+                'Pending...'
+              ) : 'Next'}
+            </button>
           </div>
         );
       case 1:
         return (
-          <div>
+          <div className="acs">
             <h2>ACS Confirmation</h2>
             <div id="acs-container">
               {/* Carbon generated ACS iframe element rendered here. */}

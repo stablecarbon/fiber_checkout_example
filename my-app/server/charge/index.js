@@ -48,8 +48,7 @@ chargeRouter
       let respData = resp.data;
       console.log('Checkout endpoint success resp data')
       console.log(respData);
-      debugger;
-      return res.send(`Charged card.`);
+      return res.send(respData);
     } catch(err) {
       let errResponse = err.response;
       if (errResponse) {
@@ -57,11 +56,8 @@ chargeRouter
         console.log('Error resp status for checkout endpoint', errResponse.status);
       } else {
         console.log('Error calling checkout endpoint', err);
-      }
-
-      debugger;
-      
-      return res.send(`Charged card error.`);
+      }      
+      return res.send(errResponse);
     }
     
   } catch(err) {
