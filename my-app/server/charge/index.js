@@ -39,7 +39,8 @@ chargeRouter
       tokenObject, fiatBaseCurrency, contactId, fiatChargeAmount
     };
 
-    let url = 'http://localhost:9999/v1/card/checkout'
+    // update given prod v sandbox env (https://api.carbon.money v https://sandbox.carbon.money)
+    let url = 'https://sandbox.carbon.money/v1/card/checkout'
 
     let resp;
     try {
