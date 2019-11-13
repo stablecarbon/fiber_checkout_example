@@ -8,7 +8,7 @@ function App() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const loadCarbon =  () => {
-    // Initiate carbon
+    // Initiate carbon. update with your superuser public key here
     let carbon = window.CarbonCheckoutCli.default.carbonCheckout("pk_test_i405dzcO1229d1833SMeTGah", "sandbox");
 
     // Initiate elements object
