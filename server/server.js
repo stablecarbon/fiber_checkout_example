@@ -5,6 +5,8 @@ require('dotenv').config()
 const hostname = '127.0.0.1';
 const port = 3001;
 const checkout = require('./checkout');
+const termUrl = require('./termUrl');
+
 
 // app.get('/', async (req,res) => {
 //    return res.send('Home.');
@@ -16,6 +18,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/checkout', checkout);
+app.use('/termUrl', termUrl);
+
 
 const server = app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
