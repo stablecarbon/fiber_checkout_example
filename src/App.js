@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+require('dotenv').config()
 
 function App() {
 
@@ -26,6 +27,20 @@ function App() {
       })
             .then(resp => {
               console.log(resp);
+
+              let iframeWindow = document.getElementById('checkoutIframe').contentWindow;
+              // render acs form in checkout iframe with two parameters:
+              // 1. your superuser public key ('publicKey') for authentication
+              // 2. the target environment ('env'). options are 'sandbox' or 'production'
+              // 3. the order id for checkout ("orderId")
+              iframeWindow.postMessage(
+                {
+                  type: "renderACSForm",
+                  publicKey: process.env.REACT_APP_SANDBOX_PUBLIC_KEY,
+                  env: "sandbox",
+                  orderId: resp.data.details.orderId,
+                }, "*"
+              );
               // let acs = elements.create('acs', { acsUrl: resp.data.details.acsUrl });
 
               // setStep(1);
@@ -40,7 +55,6 @@ function App() {
   };
 
   const loadCarbon = () => {
-    console.log('we are loading');
     let iframeWindow = document.getElementById('checkoutIframe').contentWindow;
     // render card form in checkout iframe with two parameters:
     // 1. your superuser public key ('publicKey') for authentication
@@ -48,7 +62,7 @@ function App() {
     iframeWindow.postMessage(
       {
         type: "renderCardForm",
-        publicKey: "pk_test_cHktU3vB5XCX0S04B82v34Of", // gavin's
+        publicKey: process.env.REACT_APP_SANDBOX_PUBLIC_KEY, 
         env: "sandbox",
       }, "*"
     );
@@ -56,19 +70,6 @@ function App() {
 
     // add event handler for receiving messages from checkout iframe
     window.addEventListener("message", receiveIframeMessage, false);
-
-    /*
-      carbon.createToken(card).then(function(result) {
-        if (result.error) {
-          // Inform the user if there was an error.
-          // var errorElement = document.getElementById('card-errors');
-          // errorElement.textContent = result.error.message;
-        } else {
-          // Submit the payment info
-          
-        }
-      });
-    */
   
   };
 
