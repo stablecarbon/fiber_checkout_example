@@ -7,26 +7,57 @@ function App() {
   const [step, setStep] = useState(0);
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const loadCarbon =  () => {
-    // Initiate carbon. update with your superuser public key here
-    let carbon = window.CarbonCheckoutCli.default.carbonCheckout("pk_test_i405dzcO1229d1833SMeTGah", "sandbox");
+  const receiveIframeMessage = (e) => {
+    console.log('handling message');
+    console.log(e);
+    console.log('origin');
+    console.log(e.origin);
+    // console.log('source');
+    // console.log(e.source);
+    console.log('data passed');
+    console.log(e.data);
+    const data = { ...e.data };
+    if (data.type === 'tokenizationSuccess') {
+      console.log('Card form successfully submitted and card tokenized. Here is card token data.');
+      console.log(data.data);
+      axios.post('/checkout', data.data, {
+        headers: {
+        }
+      })
+            .then(resp => {
+              console.log(resp);
+              // let acs = elements.create('acs', { acsUrl: resp.data.details.acsUrl });
 
-    // Initiate elements object
-    let elements = carbon.elements();
+              // setStep(1);
 
-    // Create card element (will allow for css to be passed in)
-    let card = elements.create('card');
+              // acs.mount('acs-container');
+            })
+            .catch(err => {
+              console.log('Error checking out.');
+              console.log(err);
+            });
+    }
+  };
 
-    // Mount card UI to app
-    card.mount("card-element");
+  const loadCarbon = () => {
+    console.log('we are loading');
+    let iframeWindow = document.getElementById('checkoutIframe').contentWindow;
+    // render card form in checkout iframe with two parameters:
+    // 1. your superuser public key ('publicKey') for authentication
+    // 2. the target environment ('env'). options are 'sandbox' or 'production'
+    iframeWindow.postMessage(
+      {
+        type: "renderCardForm",
+        publicKey: "pk_test_cHktU3vB5XCX0S04B82v34Of", // gavin's
+        env: "sandbox",
+      }, "*"
+    );
+    console.log('done');
 
-    // Handle payment submission.
-    var btn = document.getElementById('payment-submission-btn');
+    // add event handler for receiving messages from checkout iframe
+    window.addEventListener("message", receiveIframeMessage, false);
 
-    btn.addEventListener('click', function(event) {
-      event.preventDefault();
-      setSubmitting(true);
-
+    /*
       carbon.createToken(card).then(function(result) {
         if (result.error) {
           // Inform the user if there was an error.
@@ -34,18 +65,11 @@ function App() {
           // errorElement.textContent = result.error.message;
         } else {
           // Submit the payment info
-          axios.post('/charge', result)
-            .then(resp => {
-              // create acs component
-              let acs = elements.create('acs', { acsUrl: resp.data.details.acsUrl });
-
-              setStep(1);
-
-              acs.mount('acs-container');
-            });
+          
         }
       });
-    });
+    */
+  
   };
 
   useEffect(() => {
@@ -60,31 +84,20 @@ function App() {
         return (
           <div className="payment-container">
             <div className="payment-row">
-              <label for="firstName">
-                <p>First Name:</p>
-                <input type="text" id="firstName" name="first_name" />
-              </label>
-            </div>
-            <div className="payment-row">
-              <label for="firstName">
-                <p>Last Name:</p>
-                <input type="text" id="firstName" name="first_name" />
-              </label>
-            </div>
-            <div className="payment-row">
-              <label for="card-element">
-                <p>Credit or debit card</p>
-              </label>
-              <div id="card-element">
-                {/* Carbon generated card iframe element rendered here. */}
-              </div>
-            </div>
-            <button id="payment-submission-btn">
-              {isSubmitting ? (
-                'Pending...'
-              ) : 'Next'}
-            </button>
+              {/* Load checkout iframe here from https://card.carbon.money. 
+                  The card form dimensions are around 335px X 290px,
+                  so you can adjust the size of your checkout iframe accordingly.
+                */}
+              <iframe 
+              id="checkoutIframe"
+              title="Carbon Checkout Iframe"
+              width="335"
+              height="290"
+              allow="fullscreen"
+              src="https://card.carbon.money">
+              </iframe>
           </div>
+        </div>
         );
       case 1:
         return (

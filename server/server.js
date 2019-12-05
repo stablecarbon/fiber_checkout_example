@@ -1,15 +1,21 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
 require('dotenv').config()
 const hostname = '127.0.0.1';
 const port = 3001;
-const charge = require('./charge');
+const checkout = require('./checkout');
 
 // app.get('/', async (req,res) => {
 //    return res.send('Home.');
 // });
 
-app.use('/charge', charge);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use('/checkout', checkout);
 
 const server = app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

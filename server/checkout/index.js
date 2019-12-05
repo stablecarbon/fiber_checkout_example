@@ -1,9 +1,9 @@
 const express = require('express');
 const axios = require('axios');
-const chargeRouter = express.Router();
+const checkoutRouter = express.Router();
 
 
-chargeRouter
+checkoutRouter
   .route('')
   .post(async (req, res) => {
     try {
@@ -15,15 +15,9 @@ chargeRouter
       }
     }
    
-    // reference from checkout widget createToken result data
-    let tokenObject = { 
-      billingPostal: 'tok_sandbox_cX7qASdFWyDY3KbCXUZeMs',
-      billingPremise: 'tok_sandbox_tbLwipMuUxoqZcwXuKwv8w',
-      billingStreet: 'tok_sandbox_cQJ8WxYtgNj2faEiu61sP6',
-      cardNumber: 'tok_sandbox_wCGBiawWVS2AX1rQfDj4x7',
-      cvc: 'tok_sandbox_381fpMbdzMwyaoeiSKg732',
-      expiry: 'tok_sandbox_eoXXh6Et8bssJD7r4bRGfF' 
-    };
+    // reference from card form "tokenizationSuccess" event data in App.js
+    console.log(req.body);
+    let tokenObject = req.body.tokenObject;
 
     // current options: usd, eur, gbp
     let fiatBaseCurrency = 'usd';
@@ -57,7 +51,7 @@ chargeRouter
       } else {
         console.log('Error calling checkout endpoint', err);
       }      
-      return res.send(errResponse);
+      return res.status(errResponse.status).send(errResponse.data);
     }
     
   } catch(err) {
@@ -66,4 +60,4 @@ chargeRouter
   }
 });
 
-module.exports = chargeRouter;
+module.exports = checkoutRouter;
