@@ -16,7 +16,7 @@ checkoutRouter
     }
    
     // reference from card form "tokenizationSuccess" event data in App.js
-    console.log(req.body);
+    // console.log(req.body);
     let tokenObject = req.body.tokenObject;
 
     // current options: usd, eur, gbp

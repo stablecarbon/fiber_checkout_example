@@ -1,0 +1,18 @@
+{
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "globals": {
+      "document": true,
+      "window": true
+    },
+    "rules": {
+      "quotes": ["error", "single"],
+      "no-nested-ternary": 0,
+      "jsx-a11y/label-has-associated-control": [ 2, {
+        "labelAttributes": ["label"],
+        "controlComponents": ["SelectInput", "DobInput", "TextInput"],
+        "depth": 3
+      }],
+      "react/jsx-props-no-spreading": "off"
+    }
+  }

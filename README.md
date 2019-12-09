@@ -1,4 +1,43 @@
-This is an example integration of Carbon's payment gateway checkout widget. Technical documentation is available at https://docs.carbon.money/docs/checkout-widget. 
+## Overview
+This is an example integration of Carbon's payment gateway widget. 
+Further technical documentation is available at https://docs.carbon.money/docs/checkout-widget. 
+
+## `Payment Gateway Widget Iframe Overview and postMessage API`
+
+The payment gateway widget is available at https://card.carbon.money and should 
+be enclosed in an iframe for integration. There are two main components that you will have to render at various points in the iframe: 
+  1. A card form for your users to add payment cards. If submission is successful, you will receive a tokenized card object. You can then use
+  the tokenized card fields to begin charge of a card and create an order
+  via the Carbon Fiber Credit/Debit Card API checkout endpoint.
+  2. A 3DS authentication ACS (Access Control Server) form. You can use
+  the returned order id from the checkout endpoint to render this form.
+
+If you set a `customTermUrl`, then you can decide to either complete or not 
+complete the payment. To complete the payment, you can post to the Carbon Fiber API charge 3D completion url with the order.
+
+Integration with the Carbon Fiber Credit/Debit Card API is handled in the 
+proxy server.
+  
+We use the `postMessage` API to securely communicate across origins
+from this app's parent window to the child payment gateway widget window 
+in addition to responding to messages from the card.carbon.money frame. For more on the `postMessage` API, please refer to: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+
+## `Progress Update`
+
+This integration right now assumes the superuser secret key, contact id, and
+public key are available as env vars (SANDBOX_SECRET_KEY, SANDBOX_CONTACT_ID,
+and REACT_APP_SANDBOX_PUBLIC_KEY respectively).
+
+This integration right now assumes a sandbox env but will also soon be updated 
+to work for either production or sandbox config.
+
+For more on 3DS authentication, please out 3DS overview here: https://
+docs.carbon.money/docs/3d-secure-card-payments and our credit/debit purchases API here: https://docs.carbon.money/docs/credit-debit.
+
+For more on completing processing payments at your `customTermUrl`, please go here: https://docs.carbon.money/docs/custom-term-url.
+
+This integration right now has minimal styling and error handling and no 
+testing.
 
 ## Available Scripts
 
@@ -13,32 +52,19 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-
 ### `yarn start-server`
 
-Runs the app server. Logs will be available. Make sure to run the server before you add a payment card at http://localhost:3000. <br />
+Runs the app server. Logs will be available. Make sure to run the proxy server before you add a payment card via the card form or complete 3DS authentication via the ACS form at http://localhost:3000. <br />
 
-Open [http://localhost:3001](http://localhost:3001) to access the server's home route in the browser.
+Open [http://localhost:3001](http://localhost:3001) to access the proxy server's home route in the browser. 
 
-### `Progress Update`
+Note that the proxy server root is set in the `package.json` under the 'proxy' key.
 
-This integration right now assumes the superuser secret key and contact id are available as env vars (SANDBOX_SECRET_KEY and SANDBOX_CONTACT_ID, respectively) for simplicity's sake but will very soon be updated to not
-take that assumption. 
 
-This integration right now assumes a sandbox env but will also soon be updated to work for either production or sandbox config.
+### `npm run lint`
 
-This integration right now uses a fixed tokenized sandbox credit/debit card that will trigger a success response but will soon be updated to take in the tokenized credit/debit card from the form UI.
-
-This integration right now loads a bank's ACS UI for 3DS authentication via an HTML script with sensitive 3DS authentication data unencrypted but will soon be updated to return an ACS HTML script with tokenized 3DS payment data (such as the `md` and `pareq`) in addition to taking in CSS and JS config. For more on 3DS authentication, please out 3DS overview here: https://docs.carbon.money/docs/3d-secure-card-payments and our credit/debit purchases API here: https://docs.carbon.money/docs/credit-debit.
-
-Lastly, this integration needs testing of payment gateway functionality post 3DS authentication in particular completing processing payments at the termination URL as highlighted here: https://docs.carbon.money/docs/custom-term-url.
-
-Styling and error handling will also be updated over time.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+We use Airbnb's eslint config for linting this code. This config is quite strict
+so feel free to use or ignore it at your discretion.
 
 ### `yarn build`
 

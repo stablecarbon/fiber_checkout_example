@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Carbon Payment Gateway Widget",
+  "name": "Carbon Payment Gateway Widget Example Integration",
   "icons": [
     {
       "src": "favicon.ico",
