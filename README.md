@@ -2,7 +2,7 @@
 This is an example integration of Carbon's payment gateway widget. 
 Further technical documentation is available at https://docs.carbon.money/docs/checkout-widget. 
 
-## `Payment Gateway Widget Iframe Overview and postMessage API`
+## `Payment Gateway Widget Iframe Overview`
 
 The payment gateway widget is available at https://card.carbon.money and should 
 be enclosed in an iframe for integration. There are two main components that you will have to render at various points in the iframe: 
@@ -17,10 +17,20 @@ complete the payment. To complete the payment, you can post to the Carbon Fiber 
 
 Integration with the Carbon Fiber Credit/Debit Card API is handled in the 
 proxy server.
-  
+
+## `postMessage` API
+
 We use the `postMessage` API to securely communicate across origins
 from this app's parent window to the child payment gateway widget window 
 in addition to responding to messages from the card.carbon.money frame. For more on the `postMessage` API, please refer to: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+
+
+## Documentation References
+
+For more on 3DS authentication, please check out our 3DS overview here: https://
+docs.carbon.money/docs/3d-secure-card-payments and our credit/debit purchases API here: https://docs.carbon.money/docs/credit-debit.
+
+For more on completing processing payments at your `customTermUrl`, please go here: https://docs.carbon.money/docs/custom-term-url. Note that this functionality is not completely fleshed out yet.
 
 ## `Progress Update`
 
@@ -30,11 +40,6 @@ and REACT_APP_SANDBOX_PUBLIC_KEY respectively).
 
 This integration right now assumes a sandbox env but will also soon be updated 
 to work for either production or sandbox config.
-
-For more on 3DS authentication, please out 3DS overview here: https://
-docs.carbon.money/docs/3d-secure-card-payments and our credit/debit purchases API here: https://docs.carbon.money/docs/credit-debit.
-
-For more on completing processing payments at your `customTermUrl`, please go here: https://docs.carbon.money/docs/custom-term-url.
 
 This integration right now has minimal styling and error handling and no 
 testing.
