@@ -13,7 +13,7 @@ be enclosed in an iframe for integration. There are two main components that you
   the returned order id from the checkout endpoint to render this form.
 
 If you set a `customTermUrl`, then you can decide to either complete or not 
-complete the payment. To complete the payment, you can post to the Carbon Fiber API charge 3D completion url with the order.
+complete the payment. To complete the payment, you can post to the Carbon Fiber API charge 3D completion url with the order. Note that we're still working on getting this integration to work with a `customTermUrl`.
 
 Integration with the Carbon Fiber Credit/Debit Card API is handled in the 
 proxy server.

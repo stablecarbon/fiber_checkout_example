@@ -3,13 +3,15 @@ const axios = require('axios');
 const termUrlRouter = express.Router();
 
 
+// not working quite yet
 termUrlRouter
   .route('')
   .get(async (req, res) => {
     try {
     
     let data = {
-      orderId: req.query.orderId
+      orderId: req.query.orderId,
+      PIN: '1111' // automatically approve sandbox order
     };
     console.log(data);
 

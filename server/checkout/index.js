@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const publicIp = require('public-ip');
 const checkoutRouter = express.Router();
 
 
@@ -11,7 +12,8 @@ checkoutRouter
     let secretKey = process.env.SANDBOX_SECRET_KEY; 
     let headers = {
       headers: {
-        Authorization: `Bearer ${secretKey}`
+        Authorization: `Bearer ${secretKey}`,
+        userip: await publicIp.v4()
       }
     }
    
