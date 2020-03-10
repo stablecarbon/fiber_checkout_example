@@ -13,7 +13,7 @@ code {
 }
 
 .App {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -26,42 +26,4 @@ code {
 
 .payment-row {
   margin: 0 0 20px 0;
-}
-
-label p {
-  text-transform: uppercase;
-  padding: 0;
-  margin: 0 0 6px 0;
-  text-align: left;
-  font-size: 12px;
-  color: #188D90;
-}
-
-label input {
-  font-size: 14px;
-  display: block;
-  width: 100%;
-  border: none;
-  border-bottom: 2px solid #e0dfdf;
-}
-
-label input:focus {
-  border: none;
-  border-bottom: 2px solid #188D90;
-  outline: none;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  text-transform: uppercase;
-  color: white;
-  background: #50C2B4;
-  border-radius: 4px;
-  border: none;
-}
-
-button:hover {
-  background: #188D90;
 }

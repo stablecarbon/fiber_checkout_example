@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import './App.css';
+import Button from './common/button/button';
 
 require('dotenv').config();
 
 function App() {
+  // The following are optional render card form parameters.
+  // These are unpacked more above the `renderCardForm` call.
+  const hideBillingPostal = true, hideBillingStreet = true, hideTitle = true, hideSubmit  = true;
+  const styles =  {
+    fontSize: '16px',
+  };
+
   /**
    * Handler for receiving messages from payment gateway widget iframe
    * via the `postMessage` API.
@@ -70,15 +77,32 @@ function App() {
     // access payment gateway widget iframe window
     const iframeWindow = document.getElementById('paymentGatewayIframe').contentWindow;
     /**
-     * Use the `postMessage` API to render the card form in the payment gateway iframe with two parameters:
-     *   1. your superuser public key ('publicKey') for authentication
-     *   2. the target environment ('env'). options are 'sandbox' or 'production'.
+     * Use the `postMessage` API to render the card form in the payment gateway iframe with two required parameters:
+     *   1. your superuser public key (`publicKey`) for authentication
+     *   2. the target environment (`env`). options are 'sandbox' or 'production'.
+     * 
+     * The following parameters are optional:
+     *    1.  `hideBillingStreet`: Remove the billing street field from the card form. You will later have to include your
+     *        contact's tokenized billing street on your end before checking out or have already set your contact's 
+     *        default billing street as demonstratated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
+     *    2. `hideBillingPostal`: Remove the billing postal code field from the card form. You will later have to include your
+     *        contact's tokenized billing postal code on your end before checking out or have already set your contact's 
+     *        default billing postal code as demonstratated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
+     *    3. `hideTitle`: Hide our title `Payment Info` at the top left of the card form.
+     *    4. `hideSubmit`: Hide our default submit button from the card form. You can then implement your own submit button instead.
+     *    5. `styles`: Customize styling of card input fields (cardNumber, expiry, cvc). Use React inline style convention for `styles` object camelcase properties: https://reactjs.org/docs/dom-elements.html#style.
+
      * */
     iframeWindow.postMessage(
       {
         type: 'renderCardForm',
         publicKey: process.env.REACT_APP_SANDBOX_PUBLIC_KEY,
         env: 'sandbox',
+        hideBillingStreet,
+        hideBillingPostal,
+        hideTitle,
+        hideSubmit,
+        styles,
       }, '*',
     );
 
@@ -87,13 +111,29 @@ function App() {
     window.addEventListener('message', receiveIframeMessage, false);
   };
 
+  const onNext = () => {
+    // access payment gateway widget iframe window
+    const iframeWindow = document.getElementById('paymentGatewayIframe').contentWindow;
+    /**
+      * Use the `postMessage` API to submit the card form for tokenization with message type `submitCardForm`:
+      * No other parameters are needed.
+      * You only need this functionality if you are hiding the default submit button functionality
+      * from our card form and implementing your own submit button.
+      * */
+    iframeWindow.postMessage(
+      {
+        type: 'submitCardForm',
+      }, '*',
+    );
+  };
+
   // useEffect runs after every component render.
   // We call 'loadCarbon', which uses the `postMessage` API
   // to communicate with the 'paymentGatewayIframe' to render
-  // the card form so users can add their payment cards. 
+  // the card form so users can add their payment cards.
   // If the card form submission is successful, the 'paymentGatewayIframe'
   // will communicate via the 'postMessage' API the tokenized payment card fields
-  // to the parent app window. The superuser can use this token card object to 
+  // to the parent app window. The superuser can use this token card object to
   // initiate checkout.
   useEffect(() => {
     setTimeout(() => {
@@ -106,17 +146,34 @@ function App() {
       <div className="payment-container">
         <div className="payment-row">
           {/* Load the payment gateway widget here from https://card.carbon.money.
-              The card form dimensions are around 335px X 290px,
-              so you can adjust the size of your checkout iframe accordingly.
+              We're using some default styling to get started but feel free to adjust as necessary.
           */}
           <iframe
             id="paymentGatewayIframe"
             title="Carbon Payment Gateway Iframe"
-            width="335"
-            height="290"
+            style={
+              {
+              width: '100%',
+              height: '100%',
+              border: 'none'
+              }
+            }
             allow="fullscreen"
             src="https://card.carbon.money"
           />
+          {
+          hideSubmit && (
+          <Button
+            type="submit"
+            disabled={false}
+            fixed
+            className="button"
+            onClick={onNext}
+            >
+            <p style={{ color: 'white' }}>Next</p>
+          </Button>
+          )
+          }
         </div>
       </div>
     </div>

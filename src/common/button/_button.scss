@@ -1,0 +1,94 @@
+@import '../../styles/_color';
+
+.common__button {
+  height: 46px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  display: block;
+  align-items: center;
+
+  &.relative {
+    position: relative;
+    width: 150px;
+  }
+
+  &.relative-100 {
+    position: relative;
+    width: 100% !important;
+    margin-top: 40px !important;
+  }
+
+  &.no__float {
+    position: initial;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  &.primary {
+    color: #333;
+
+    &.filled {
+      color: white;
+      background: $fadedCarbonBlue;
+      box-shadow: 0px 2px 10px $shadowCarbonBlue;
+
+      &:hover:enabled {
+        background: $carbonBlue;
+      }
+    }
+
+    &.outlined {
+      color: $carbonBlue;
+      border: 1px solid $fadedCarbonBlue;
+
+      &:hover:enabled {
+        border: 1px solid $carbonBlue;
+      }
+    }
+
+    &:disabled {
+      background: $disabledGray !important;
+      box-shadow: none !important;
+      color: $mediumGray !important;
+    }
+  
+  }
+
+  &.secondary {
+    color: #333;
+    border-radius: 10px;
+
+    &.filled {
+      color: white;
+      background: $fadedSecondary;
+      box-shadow: 0px 3px 15px $shadowSecondary;
+      
+      &:hover:enabled {
+        background: $secondary;
+      }
+    }
+
+    &.outlined {
+      border: 1px solid $fadedSecondary;
+
+      &:hover:enabled {
+        border: 21px solid $secondary;
+      }
+    }
+
+    &:disabled {
+      background: $disabledGray !important;
+      box-shadow: none !important;
+      color: $mediumGray !important;
+    }
+  }
+
+  &.button__margin{
+    margin-top: 20px;
+  }
+}
