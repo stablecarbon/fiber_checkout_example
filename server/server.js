@@ -17,6 +17,9 @@ const confirmationUrl = require('./confirmationUrl');
 //    return res.send('Home.');
 // });
 
+
+// JSON request body parameters will be
+// available under the request body params
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true

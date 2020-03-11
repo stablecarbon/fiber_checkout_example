@@ -13,12 +13,20 @@ checkoutRouter
     let headers = {
       headers: {
         Authorization: `Bearer ${secretKey}`,
-        userip: await publicIp.v4()
+        // need to pass in `userip` as detailed here: https://docs.carbon.money/docs/blocked-countries
+        userip: await publicIp.v4() 
       }
     }
    
     // reference from card form "tokenizationSuccess" event data in App.js
     // console.log(req.body);
+
+    // if you configured the card form to to hide the billing street and/or billing postal code fields, 
+    // you will have to tokenize those fields (along with the billing premise) separately on your end 
+    // and then supply the `tokenizedBillingStreet`, `tokenizedBillingPremise`, and `tokenizedBillingPostal` 
+    // fields at checkout as detailed here: https://docs.carbon.money/docs/checkout-widget#section-example-request-response-for-checkout-backend-integration. 
+    // You can also set the contact's default `billingStreet` and `billingPostalCode` as detailed here: 
+    // https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
     let tokenObject = req.body.tokenObject;
 
     // current options: usd, eur, gbp

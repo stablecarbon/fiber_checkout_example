@@ -143,7 +143,6 @@ function App() {
 
   return (
     <div className="App">
-      <div className="payment-container">
         <div className="payment-row">
           {/* Load the payment gateway widget here from https://card.carbon.money.
               We're using some default styling to get started but feel free to adjust as necessary.
@@ -161,7 +160,7 @@ function App() {
             allow="fullscreen"
             src="https://card.carbon.money"
           />
-          {
+             {
           hideSubmit && (
           <Button
             type="submit"
@@ -175,7 +174,6 @@ function App() {
           )
           }
         </div>
-      </div>
     </div>
   );
 }
