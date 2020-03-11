@@ -84,10 +84,10 @@ function App() {
      * The following parameters are optional:
      *    1.  `hideBillingStreet`: Remove the billing street field from the card form. You will later have to include your
      *        contact's tokenized billing street on your end before checking out or have already set your contact's 
-     *        default billing street as demonstratated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
+     *        default billing street as demonstrated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
      *    2. `hideBillingPostal`: Remove the billing postal code field from the card form. You will later have to include your
      *        contact's tokenized billing postal code on your end before checking out or have already set your contact's 
-     *        default billing postal code as demonstratated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
+     *        default billing postal code as demonstrated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
      *    3. `hideTitle`: Hide our title `Payment Info` at the top left of the card form.
      *    4. `hideSubmit`: Hide our default submit button from the card form. You can then implement your own submit button instead.
      *    5. `styles`: Customize styling of card input fields (cardNumber, expiry, cvc). Use React inline style convention for `styles` object camelcase properties: https://reactjs.org/docs/dom-elements.html#style.
