@@ -89,7 +89,8 @@ function App() {
      *        contact's tokenized billing postal code on your end before checking out or have already set your contact's 
      *        default billing postal code as demonstrated here: https://docs.carbon.money/docs/contacts#section-8-patch-contact-patch
      *    3. `hideTitle`: Hide our title `Payment Info` at the top left of the card form.
-     *    4. `hideSubmit`: Hide our default submit button from the card form. You can then implement your own submit button instead.
+     *    4. `hideSubmit`: Hide our default submit button from the card form. You can then implement your own submit button instead.  
+     *        You can then initiate submission of the card form by using the `postMessage` API to send the following message: { type: 'submitForm' }. No other parameters in the message are needed
      *    5. `styles`: Customize styling of card input fields (cardNumber, expiry, cvc). Use React inline style convention for `styles` object camelcase properties: https://reactjs.org/docs/dom-elements.html#style.
 
      * */
@@ -118,7 +119,8 @@ function App() {
       * Use the `postMessage` API to submit the card form for tokenization with message type `submitCardForm`:
       * No other parameters are needed.
       * You only need this functionality if you are hiding the default submit button functionality
-      * from our card form and implementing your own submit button.
+      * from our card form and implementing your own submit button.  
+      * You can then initiate submission of the card form by using the `postMessage` API to send the following message: { type: 'submitForm' }. No other parameters in the message are needed
       * */
     iframeWindow.postMessage(
       {
